@@ -18,7 +18,7 @@ Partial Class _Default
         Dim id As String
         Dim pass, fechaExp As String
         cmd.Connection = conexion
-        cmd.CommandText = " SELECT ID,USUARIO,DEFPASS FROM FAR.FAR.ACCESOS WHERE USUARIO= @usuario AND ESTADO='H'"
+        cmd.CommandText = " SELECT ID,USUARIO,DEFPASS FROM FAR.ACCESOS WHERE USUARIO= @usuario AND ESTADO='H'"
         cmd.Parameters.Add(New SqlParameter("usuario", txtUsuario.Text))
 
         dr = cmd.ExecuteReader
@@ -28,17 +28,17 @@ Partial Class _Default
             Session.Add("usuario", CStr(dr(1)))
             Session.Add("defPass", CStr(dr(2)))
             Session.Add("id", id)
-            query = "SELECT TOP 1 PASS FROM FAR.FAR.PASSWORD WHERE ID_USUARIO='" & id & "' ORDER BY ID DESC"
+            query = "SELECT TOP 1 PASS FROM FAR.PASSWORD WHERE ID_USUARIO='" & id & "' ORDER BY ID DESC"
 
             pass = fn.DevolverDatoQuery(query)
 
             If (pass = fn.Encriptar(txtPass.Text)) Then
-                query = "SELECT TOP 1 CONVERT (char(10), FECHA_EXP, 103) FECHA_EXP FROM FAR.FAR.PASSWORD WHERE ID_USUARIO='" & id & "' ORDER BY ID DESC"
+                query = "SELECT TOP 1 CONVERT (char(10), FECHA_EXP, 103) FECHA_EXP FROM FAR.PASSWORD WHERE ID_USUARIO='" & id & "' ORDER BY ID DESC"
                 fechaExp = fn.DevolverDatoQuery(query)
 
                 Session.Add("pass", pass)
                 Session.Add("fechaExp", fechaExp)
-                Response.Redirect("NuevaRendicion")
+                Response.Redirect("NuevaRendicion.aspx")
             Else
                 alert.Attributes("class") = "alert alert-danger"
                 lblMensaje.Text = "Contraseña Incorrecta"

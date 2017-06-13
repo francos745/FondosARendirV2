@@ -28,7 +28,7 @@
 
     <link href="css/bootstrap.min.css" rel="stylesheet"/>
     <link href="css/styles.css" rel="stylesheet"/>
-    <link href="css/sumoselect.css" rel="stylesheet" />
+   
     <link href="css/Estilos.css" rel="stylesheet" />
     <!-- Include Date Range Picker -->
     <link href="css/daterangepicker.css" rel="stylesheet"  />
@@ -36,175 +36,21 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.dataTables.min.js"></script> 
-    <script src="js/jquery.sumoselect.js"></script>
+   
     <script src="js/dataTables.bootstrap.min.js"></script>
     <script src="js/moment.min.js"></script>
+    <script src="js/select2.full.js"></script>
+    
     <!-- Include Date Range Picker -->
     <script src="js/daterangepicker.js"></script>
+    <script src="js/jquery.numeric.min.js"></script>
+    <link href="css/alertify.core.css" rel="stylesheet" />
+    <link href="css/alertify.bootstrap.css" rel="stylesheet" />    
+    <script src="js/alertify.min.js"></script>
+	<link href="css/select2.min.css" rel="stylesheet" />    
 
 
-
-    <script type="text/javascript">
-        function pageLoad(sender, args) {
-            window.asd = $('.SlectBox').SumoSelect({ csvDispCount: 6 });
-            window.test = $('.testsel').SumoSelect({okCancelInMulti:true });
-            window.testSelAll = $('.testSelAll').SumoSelect({okCancelInMulti:true, selectAll:true });
-            window.testSelAlld = $('.SlectBox-grp').SumoSelect({okCancelInMulti:true, selectAll:true });
-
-            window.testSelAll2 = $('.testSelAll2').SumoSelect({selectAll:true });
-           
-
-            window.Search = $('.search-box').SumoSelect({ csvDispCount: 3, search: true, searchText:'Ingrese aquí.' });
-            window.searchSelAll = $('.search-box-sel-all').SumoSelect({ csvDispCount: 3, selectAll:true, search: true, searchText:'Ingrese aquí.', okCancelInMulti:true });
-            window.searchSelAll = $('.search-box-open-up').SumoSelect({ csvDispCount: 3, selectAll:true, search: true, searchText:'Ingrese aquí.', up:true });
-
-            window.groups_eg_g = $('.groups_eg_g').SumoSelect({selectAll:true, search:true });
-       
-
-            $('input[name="txtFecha"]').daterangepicker(
-      {
-          locale: {
-              format: 'DD-MM-YYYY'
-          },
-          showDropdowns: true,
-          singleDatePicker: true
-
-      }
-
-      );
-
-
-            $(document).ready(function () {
-                $('#dtgDetalle').dataTable({
-
-                    "lengthMenu": [[10, 15, 20, -1], [10, 15, 20, "Todos"]],
-                    "responsive": true,
-                    "stateSave": true,
-                    "paging": true,
-                    "ordering": true,
-                    "info": true,
-                    "searching": true,
-                    "language": {
-                        "emptyTable": "Sin información disponible",
-                        "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
-                        "infoEmpty": "Mostrando 0 to 0 de 0 registros",
-                        "infoFiltered": "(filtered from _MAX_ total entries)",
-                        "lengthMenu": "Mostrar _MENU_ registros",
-                        "loadingRecords": "Cargando...",
-                        "processing": "Procesando...",
-                        "search": "Buscar:",
-                        "zeroRecords": "No se encontraron registros",
-                        "paginate": {
-                            "first": "Primera",
-                            "last": "Última",
-                            "next": "Siguiente",
-                            "previous": "Anterior"
-                        },
-                    }
-                });
-            });
-
-            function MostrarRazonSocial(nit) {
-                console.log('+++++++++++++++++++++');
-                console.log(nit);
-                console.log('////////////////////');
-                $.ajax({
-                    type: "POST",
-                    url: "NuevaRendicion.aspx/obtenerRazonSocial",
-                    data: '{nit: "' + nit + '"}',
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: escribirRazonSocial,
-                    failure: function (response) {
-                        alert(response.d);
-                    }
-                });
-            }
-
-            function escribirRazonSocial(response) {
-        
-                 //document.getElementById('<%= lblRazonSocial.ClientID %>').innerHTML = response.d;
-                 console.log('-------------------------*');
-                 var razonSocial = response.d;
-                 console.log(response.d);
-                 console.log('-------------------------');
-                 if (razonSocial != "NULL") {
-                     console.log('3');
-                    document.getElementById("btnNitS").style = "display: none;";
-                    document.getElementById("lblRazonSocial").style = "";
-                    document.getElementById("lblRazonSocial").className = "alert alert-success";
-
-                    document.getElementById('<%= lblRazonSocial.ClientID %>').innerHTML = razonSocial;
-           
-                    document.getElementById("fsImporte").disabled = false;
-
-                    if (razonSocial== "NO DEFINIDO") {
-                        console.log('4');
-                        document.getElementById("txtNitAdicionalS").style = "";
-                        document.getElementById("txtImporteCredFiscS").style = "display:none;";
-                        document.getElementById('<%= lblFac.ClientID %>').innerHTML = "Número de Recibo";
-                        document.getElementById('<%= txtFactura.ClientID %>').innerHTML = "0";
-                        document.getElementById('txtCodControl').value = "-";
-                        document.getElementById('txtAutoriza').value = "-";
-
-                        document.getElementById("txtCodControlS").style = "display:none;";
-                        document.getElementById("txtAutorizaS").style = "display:none;";
-                
-                    }
-                    else {
-                        console.log('5');
-                        if (razonSocial =="") {
-                            document.getElementById('<%= lblFac.ClientID %>').innerHTML = "Número de Factura";                
-                            document.getElementById("fsCodAut").style = "";                
-                            document.getElementById("fsCodAut").disabled = false;                
-                            document.getElementById("txtNitAdicional").style = "display:none;";
-                            document.getElementById("txtImporteCredFiscS").style = "";
-                            if (document.getElementById('txtAutoriza').value == "-") {
-                                console.log('6');
-                                document.getElementById('txtCodControl').value = "";
-                                document.getElementById('txtAutoriza').value = "";
-                            }
-                        } else {
-                            console.log('7');
-                        // si no ha encontrado ninguna coincidencia, esconde la
-                        // fila de la tabla
-                        //tableReg.rows[i].style.display = 'none';
-                         document.getElementById("lblRazonSocial").style = "";
-                         document.getElementById("lblRazonSocial").className = "alert alert-warning";
-                        document.getElementById('<%= lblRazonSocial.ClientID %>').innerHTML = "El NIT no existe.¿Desea agregarlo?";
-                
-                        document.getElementById("btnNitS").style = "";
-                       
-                        document.getElementById("fsImporte").disabled=true;
-                        }
-                        
-                    }
-
-
-                 } else {
-                     console.log('8');
-                        document.getElementById("lblAuxS").style = "";
-                        document.getElementById("lblAuxS").className = "alert alert-danger";
-                        document.getElementById('<%= lblRazonSocial.ClientID %>').innerHTML = "Ingrese un NIT";
-                
-                        document.getElementById("btnNitSi").style = "display:none;";
-                        document.getElementById("btnNitNo").style = "display:none;";
-                        document.getElementById("fsImporte").disabled=true;
-
-                    
-                 }
-                console.log(response.d);
-             }
-
-            $("#txtNit").on('change keyup paste', function () {
-                MostrarRazonSocial($(this).val());
-            });
-
-        }
-
-
-
-    </script>
+    
 
     <style type="text/css">
         body{font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;color:#444;font-size:13px;}
@@ -368,7 +214,10 @@
                                         <div class="control-group">
                                             <label for="nueva" class="control-label"> Número de Solicitud: </label>
                                             <div class="controls" style="text-align:left;">
-                                                <asp:DropDownList ID="cmbRendicion" runat="server" class="search-box" AutoPostBack="true" placeholder="No hay elementos disponibles" ></asp:DropDownList>
+                                                
+                                                <asp:DropDownList ID="cmbRendicion" runat="server" class="mySelect" Width="100%"></asp:DropDownList>
+                                                
+                                                <div class="alert alert-info" style="display:none;"><asp:Label ID="lblId" runat="server" Text=""></asp:Label></div>
                                             </div>
                                         </div>
                                     </div>
@@ -400,32 +249,43 @@
 
 
                                 <div class="row">
-                                    <div class="col-sm-4" >
-                                       
-                                    </div>
-
                                     <div class="col-sm-8" >
-                                        <fieldset class="row" id="Fieldset1" runat="server" disabled="disabled" >
-                                            <div class="col-sm-3" >
+                                       <div class="col-sm-3" >
                                                  <div class="control-group">                                                    
                                                     <div class="controls" style="text-align:left;">
-                                                         <h5><span class="label label-info" runat="server" id="lblRendidoS">Rendido: <asp:Label ID="lblRendido" runat="server" Text="400"></asp:Label>  </span></h5>
+                                                         <h5><span class="label label-default" runat="server" id="lblCodigoRendS">Código: <asp:Label ID="lblCodigoRend" runat="server" Text="400"></asp:Label>  </span></h5>
                                                     </div>
                                                 </div>
                                             </div>
+                                   
+                                        
+                                            <div class="col-sm-3" >
+                                                 <div class="control-group">                                                    
+                                                    <div class="controls" style="text-align:left;">
+                                                         <h5><span class="label label-primary" runat="server" id="lblAsignadoS">Asignado: <asp:Label ID="lblAsignado" runat="server" Text="250000.06"></asp:Label>  </span></h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                             <div class="col-sm-3" >
                                                  <div class="control-group">
                                                     
                                                     <div class="controls" style="text-align:left;">
-                                                         <h5><span class="label label-info" runat="server" id="lblPorRendirS">Por rendir:  <asp:Label ID="lblPorRendir" runat="server" Text="200"></asp:Label>  </span></h5>
+                                                         <h5><span class="label label-info" runat="server" id="lblRendidoS">Rendido:  <asp:Label ID="lblRendido" runat="server" Text="250.06"></asp:Label>  </span></h5>
                                                     </div>
                                                 </div>
                                             </div>
                                             
-                                            <div class="col-sm-6" >
-                                                
-                                            </div>             
-                                        </fieldset>
+                                            <div class="col-sm-3" >
+                                                 <div class="control-group">
+                                                    
+                                                    <div class="controls" style="text-align:left;">
+                                                         <h5><span class="label label-info" runat="server" id="lblPorRendirS">Por rendir:  <asp:Label ID="lblPorRendir" runat="server" Text="250000.06"></asp:Label>  </span></h5>
+                                                    </div>
+                                                </div>
+                                            </div>     
+                                                 
+                                        
                                     </div>
                                 </div>
 
@@ -434,7 +294,7 @@
                                     <div class="col-sm-4" >
                                         <div class="btn-group btn-group-justified" role="group" aria-label="...">
                                                     <div class="btn-group" role="group">
-                                                        <input id="btnAgregar" type="button" value="Agregar Comprobante (+)" data-target="#modalComprobante" class="btn btn-primary btn-md" runat="server" data-toggle="modal" data-backdrop="static" />
+                                                        <button id="btnAgregar" runat="server" class="btn btn-primary btn-md" data-backdrop="static" data-target="#modalComprobante" data-toggle="modal" type="button">Agregar Comprobante (+)</button>
                                                     </div>                        
                                                    
                                                 </div>
@@ -442,6 +302,35 @@
 
                                     <div class="col-sm-8" >
                                         
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    
+                                     <div class="table-responsive" >
+                                        <div class="control-group" id="dtgFacturaS" runat="server">
+                                            <table id="dtgComprobante" class="testgrid1" cellspacing="0" width="100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>NIT</th>
+                                                        <th>NOMBRE PROVEEDOR</th>
+                                                        <th>NRO. COMPROBANTE</th>
+                                                        <th>NRO. AUTORIZACIÓN</th>
+                                                        <th>CÓDIGO DE CONTROL</th>
+                                                        <th>FECHA</th>
+                                                        <th>IMPORTE</th>
+                                                        <th>IMPORTE CRÉDITO FISCAL</th>
+                                                    </tr>
+                                                </thead>
+                                                
+                                               
+                                            </table>
+                                        </div> 
+
+                                         <asp:SqlDataSource ID="dsFactura" runat="server" ProviderName="System.Data.SqlClient" >
+                                             <SelectParameters>
+                                                <asp:ControlParameter ControlID="lblFac" DefaultValue="ninguno" Name="DETALLE_FACTURA" PropertyName="text" Type="String" />
+                                            </SelectParameters>
+                                        </asp:SqlDataSource>
                                     </div>
                                 </div>
 
@@ -460,7 +349,7 @@
                         <!--END FOOTER-->
                     </div>
                 </div>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Large modal</button>
+               
             </ContentTemplate>
         </asp:UpdatePanel>
 
@@ -472,11 +361,12 @@
 
 
     <!--INICIO MODAL COMPROBANTE-->
+
     <div class="modal fade bs-example-modal-lg" tabindex="-1"  id="modalComprobante"  role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header text-center">
-                   <h2>Detalles del Comprobante: <span class="extra-title muted"></span></h2>
+                       <h2>Detalles del Comprobante: <span class="extra-title muted"></span></h2>
                 </div>
                 <div class="modal-body form-horizontal">
                     
@@ -491,11 +381,17 @@
                                 </div> 
                                                                                    
                             </div> 
-                            <div class="col-sm-3"  id="lblRazonSocialS" runat="server">  
-                                <div class="alert alert-info"><asp:Label ID="lblRazonSocial" runat="server"></asp:Label></div>                      
+                            <div class="col-sm-3">  
+                                <div runat="server" id="lblRazonSocialS" class="alert alert-info" style="display:none;"><asp:Label ID="lblRazonSocial" runat="server"></asp:Label></div>
+                                                     
                             </div> 
                             <div class="col-sm-3" id="txtNitAdicionalS" runat="server" style="display:none;">    
-                                <asp:TextBox ID="txtNitAdicional" runat="server" class="form-control input-sm" placeholder="Nombre del proveedor"></asp:TextBox>          
+
+                                <label for="nueva" class="control-label">Nombre Proveedor:</label>
+                                <div class="controls">
+                                    <asp:TextBox ID="txtNitAdicional" runat="server" class="form-control input-sm" placeholder="Nombre del proveedor"></asp:TextBox>                               
+                                </div> 
+                                         
                             </div> 
                             <div class="col-sm-3" id="btnNitS" runat="server" style="display:none;">
                                <button id="btnNitSi" runat="server" class="btn btn-info btn-md" data-backdrop="static" data-target="#modalNuevoNit" data-toggle="modal" type="button">Si</button>
@@ -527,9 +423,7 @@
                                 </div>
                             </div> 
                        
-                                <div class="col-sm-3">
-                                    
-                                </div> 
+                                
                                 <div class="col-sm-3" id="txtFechaS" runat="server">  
                                      <label for="nueva" class="control-label">Fecha:</label>
                                     <div class="controls">
@@ -568,16 +462,20 @@
                 </div>
                 <div class="modal-footer">
                     <div class="btn-group btn-group-justified" role="group" aria-label="...">
-                        <div class="btn-group" role="group">                            
-                            <input id="btnAceptar" type="button" value="Aprobar" runat="server" data-dismiss="modal" class="btn btn-primary btn-md" />
+                        <div class="btn-group" role="group">    
+                                                    
+                            <input id="btnAceptarComp" type="button" value="Aceptar" runat="server" dismiss="modal" class="btn btn-primary btn-md" />
                         </div>
   
                         <div class="btn-group" role="group">                            
-                            <input id="btnAgregarLinea" type="button" value="Agregar Línea" runat="server" data-target="#myModal2" class="btn btn-primary btn-md" data-toggle="modal" data-backdrop="static" />
+                            <input id="btnAgregarLineaComp" type="button" value="Agregar Línea (+)" runat="server" data-target="#myModal2" class="btn btn-info btn-md" data-toggle="modal" data-backdrop="static" />
                         </div>
 
                         <div class="btn-group" role="group">
-                            <input id="btnEliminar" type="button" value="Eliminar Comprobante" runat="server" data-dismiss="modal" class="btn btn-default btn-md" />
+                            <input id="btnEliminarComp" type="button" value="Eliminar Comprobante" runat="server" data-dismiss="modal" class="btn btn-danger btn-md" />
+                        </div>
+                        <div class="btn-group" role="group">
+                            <input id="btnVolverComp" type="button" value="Cancelar" runat="server" data-dismiss="modal" class="btn btn-default btn-md" />
                         </div>
                     </div>
 
@@ -586,6 +484,49 @@
         </div>
     </div>
     <!-- FIN MODAL COMPROBANTE -->
+
+
+   <!-- INICIO REGISTRO DE NUEVO NIT-->
+    <div class="modal fade" id="modalNuevoNit" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                   <h2>Registro de Nuevo Nit <span class="extra-title muted"></span></h2>
+                </div>
+                <div class="modal-body form-horizontal">
+                    
+                    <div class="control-group">
+                        <label for="nueva" class="control-label">Razón Social:</label>
+                        <div class="controls">
+                            <input id="txtRazonSocial2" type="text" runat="server" class="form-control input-md" placeholder="Razón Social" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label for="nueva" class="control-label">Rótulo Comercial: </label>
+                        <div class="controls">
+                            <input id="txtAlias2" type="text" runat="server" class="form-control input-md" placeholder="Alias" />
+                        </div>
+                    </div>
+                    
+                    
+                   
+                </div>
+                <div class="modal-footer">
+                    <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                        <div class="btn-group" role="group">
+                            <input id="btnNitAceptar" type="button" value="Aceptar" runat="server" dismiss="modal" class="btn btn-primary btn-md" />
+                        </div>
+  
+                        <div class="btn-group" role="group">
+                            <input id="btnNitCancelar" type="button" value="Cancelar" runat="server" data-dismiss="modal" class="btn btn-default btn-md" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- INICIO REGISTRO DE NUEVO NIT-->
 
     <!--INICIO MODAL LINEAS-->
     <div class="modal fade bs-example-modal-lg" tabindex="-1"  id="modalLineas"  role="dialog" aria-labelledby="myLargeModalLabel">
@@ -686,9 +627,8 @@
             </div>
         </div>
     </div>
-    <!-- FIN MODAL LIENAS -->
-        <a data-toggle="modal" href="#myModal" class="btn btn-primary">Launch modal</a>
-
+    <!-- FIN MODAL LINEAS -->
+       
 <div class="modal" id="myModal">
 	<div class="modal-dialog">
       <div class="modal-content">
@@ -734,6 +674,398 @@
 
     </form>
    
+
+    <script type="text/javascript">
+        function pageLoad(sender, args) {
+               
+            $(".mySelect").select2();
+
+
+            $('input[name="txtFecha"]').daterangepicker(
+              {
+                  locale: {
+                      format: 'DD-MM-YYYY'
+                  },
+                  showDropdowns: true,
+                  singleDatePicker: true
+             }
+            );
+
+
+            $(document).ready(function () {
+                $('#dtgComprobante').dataTable({
+
+                    "lengthMenu": [[10, 15, 20, -1], [10, 15, 20, "Todos"]],
+                    "responsive": true,
+                    "stateSave": true,
+                    "paging": true,
+                    "ordering": true,
+                    "info": true,
+                    "searching": true,
+                    "language": {
+                        "emptyTable": "Sin información disponible",
+                        "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                        "infoEmpty": "Mostrando 0 to 0 de 0 registros",
+                        "infoFiltered": "(filtered from _MAX_ total entries)",
+                        "lengthMenu": "Mostrar _MENU_ registros",
+                        "loadingRecords": "Cargando...",
+                        "processing": "Procesando...",
+                        "search": "Buscar:",
+                        "zeroRecords": "No se encontraron registros",
+                        "paginate": {
+                            "first": "Primera",
+                            "last": "Última",
+                            "next": "Siguiente",
+                            "previous": "Anterior"
+                        },
+                    }
+                });
+
+                llenarComboARendir();
+            }          
+
+            );
+
+            /////////////////////////////////////////////////////////////////////
+            //Funciones para llenar el combo box de rendiciones**********************
+
+            $('#cmbRendicion').on('change', function () {
+                
+                mostrarCodigoRendicion($(this).val());
+               
+                //alert($('#cmbRendicion option:selected').text());
+            });
+            //funcion para llenar el combo box de rendiciones
+            function llenarComboARendir() {
+                var id = document.getElementById('<%= lblId.ClientID %>').innerHTML;
+                $.ajax({
+                    type: "POST",
+                    url: "NuevaRendicion.aspx/llenarComboARendir",
+                    data: "{id:'" + id + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        var count = 0;
+                        $.each(response.d, function () {
+                            if (count == 0) {
+                                $('#cmbRendicion').append($("<option selected></option>").val(this['Value']).html(this['Text']));
+                            } else {
+                                $('#cmbRendicion').append($("<option></option>").val(this['Value']).html(this['Text']));
+                            }
+                            count++;
+                        });
+                        mostrarCodigoRendicion($('#cmbRendicion').val());
+                        
+                    }
+                });
+            }
+
+
+            function mostrarCodigoRendicion(id) {
+                
+                $.ajax({
+                    
+                    type: "POST",
+                    url: "NuevaRendicion.aspx/obtenerCodigoRendicion",
+                    data: '{id: "' + id + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        var texto = response.d;
+                        var codigo = "";
+                        var referencia = "";
+                        var porRendir = "**";
+                        console.log(porRendir);
+                        codigo = texto.substring(0, texto.indexOf('***'));
+                        referencia = texto.substring(texto.indexOf('***')+3,texto.length);
+                        porRendir = $('#cmbRendicion option:selected').text();
+
+                        if (codigo == 'N/E') {
+                            document.getElementById('<%= lblCodigoRendS.ClientID %>').className = "label label-danger";
+                        }
+                        else {
+                            document.getElementById('<%= lblCodigoRendS.ClientID %>').className = "label label-default";
+                        }
+                       
+                        document.getElementById('<%= lblCodigoRend.ClientID %>').innerHTML = codigo;
+                        document.getElementById('<%= lblSubtitulo.ClientID %>').innerHTML = referencia;
+                        document.getElementById('<%= lblAsignado.ClientID %>').innerHTML = porRendir.substring(0, porRendir.indexOf(' Bs.'));
+
+                        mostrarRendido(id);
+                    },
+                    failure: function (response) {
+                        alert(response.d);
+                    }
+                });
+            }
+
+            function mostrarRendido(id) {
+                
+                $.ajax({
+                    
+                    type: "POST",
+                    url: "NuevaRendicion.aspx/obtenerRendido",
+                    data: '{id: "' + id + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        var asignado = parseFloat(document.getElementById('<%= lblAsignado.ClientID %>').innerHTML);
+                        var rendido = parseFloat(response.d);
+                        var porRendir = 0;
+
+                        porRendir = asignado - rendido;
+
+                        if (rendido == 0) {
+                            document.getElementById('<%= lblRendidoS.ClientID %>').className = "label label-warning";
+                        }
+                        else {
+                            document.getElementById('<%= lblRendidoS.ClientID %>').className = "label label-info";
+                        }
+
+                        if (porRendir < 0) {
+                            document.getElementById('<%= lblPorRendirS.ClientID %>').className = "label label-danger";
+                        }
+                        else {
+                            document.getElementById('<%= lblPorRendirS.ClientID %>').className = "label label-success";
+                        }
+                                                
+                        document.getElementById('<%= lblPorRendir.ClientID %>').innerHTML = porRendir;
+                        document.getElementById('<%= lblRendido.ClientID %>').innerHTML = rendido;
+                       
+                    },
+                    failure: function (response) {
+                        alert(response.d);
+                    }
+                });
+            }
+
+    
+            /////////////////////////////////////////////////////////////////////////////////////
+            //*****************FUNCIONES PARA VALIDAR EL CAMBIO EN TXTNIT************************
+            //DISPARA LA FUNCION "MOSTRARRAZONSOCIAL MEDIANTE EL EVENTO KEYUP"
+            $("#txtNit").on('change keyup paste', function () {
+                MostrarRazonSocial($(this).val());
+            });
+
+            //FUNCIÓN PARA MOSTRAR EL NIT A PARTIR DE UN EVENTO EN EL CUADRO DE TEXTO DE NIT
+            function MostrarRazonSocial(nit) {
+               
+                $.ajax({
+                    type: "POST",
+                    url: "NuevaRendicion.aspx/obtenerRazonSocial",
+                    data: '{nit: "' + nit + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: escribirRazonSocial,
+                    failure: function (response) {
+                        alert(response.d);
+                    }
+                });
+            }
+
+           //FUNCION QUE ESCRIBE LA RAZON SOCIAL EN BASE A LA RESPUESTA OBTENIDA DE LA BASE DE DATOS. cAMBIA LOS FORMATOS DE LOS BOTONES
+             function escribirRazonSocial(response) {
+                var razonSocial = response.d;
+               
+                 if (razonSocial != "NULO") {
+                    document.getElementById("btnNitS").style = "display: none;";
+                    document.getElementById("lblRazonSocialS").style = "";
+                    document.getElementById("lblRazonSocialS").className = "alert alert-success";
+                    document.getElementById('<%= lblRazonSocial.ClientID %>').innerHTML = razonSocial;
+           
+                    document.getElementById("fsImporte").disabled = false;
+                    if (razonSocial== "NO DEFINIDO") {
+                        document.getElementById("txtNitAdicionalS").style = "";
+                        document.getElementById("txtImporteCredFiscS").style = "display:none;";
+                        document.getElementById('<%= lblFac.ClientID %>').innerHTML = "Número de Recibo";
+                        $('#<%= txtFactura.ClientID %>').val("0");
+                        $('#<%= txtNitAdicional.ClientID %>').val("");
+                        $('#<%= txtCodControl.ClientID %>').val("-");
+                        $('#<%= txtAutoriza.ClientID %>').val("-");
+                        document.getElementById("txtCodControlS").style = "display:none;";
+                        document.getElementById("txtAutorizaS").style = "display:none;";
+                    }
+                    else {
+                         if (razonSocial != "N/E") {
+                             document.getElementById('<%= lblFac.ClientID %>').innerHTML = "Número de Factura";    
+                             document.getElementById("txtCodControlS").style = "";
+                             document.getElementById("txtAutorizaS").style = "";
+                             document.getElementById("txtNitAdicionalS").style = "display:none;";
+                             $('#<%= txtNitAdicional.ClientID %>').val(razonSocial);
+                            document.getElementById("txtImporteCredFiscS").style = "";
+                            if (document.getElementById('txtAutoriza').value == "-") {
+                                document.getElementById('txtCodControl').value = "";
+                                document.getElementById('txtAutoriza').value = "";
+                            }
+                         } else {
+                        // si no ha encontrado ninguna coincidencia, esconde la
+                        // fila de la tabla
+                        //tableReg.rows[i].style.display = 'none';
+                         document.getElementById("lblRazonSocialS").style = "";
+                         document.getElementById("lblRazonSocialS").className = "alert alert-warning";
+                        document.getElementById('<%= lblRazonSocial.ClientID %>').innerHTML = "El NIT no existe.¿Desea agregarlo?";
+                             document.getElementById("txtNitAdicionalS").style = "display:none;";
+                             $('#<%= txtNitAdicional.ClientID %>').val(razonSocial);
+                        document.getElementById("btnNitS").style = "";
+                       
+                        document.getElementById("fsImporte").disabled=true;
+                        }
+                        
+                    }
+
+
+                 } else {
+                    
+                     document.getElementById("lblRazonSocialS").style = "";
+                     document.getElementById("lblRazonSocialS").className = "alert alert-danger";
+                        document.getElementById('<%= lblRazonSocial.ClientID %>').innerHTML = "Ingrese un NIT. De no conocerlo escriba 'ND'";
+                
+                        document.getElementById("btnNitS").style = "display:none;";
+                       
+                        document.getElementById("fsImporte").disabled=true;
+
+                    
+                 }
+             }
+          
+            ///////////////////////////////////////////////////////////////////////////
+            //*****************FUNCIONES PARA VALIDAR EL GUARDADO DE NIT**************
+            //FUNCION PARA VALIDAR QUE ESTEN EXCRITOS TODOS LOS CAMPOS PARA INGRESAR UN NUEVO NIT
+
+            $('#btnNitAceptar').on('click', function () {
+                insertarNit();
+            });
+            $('#btnNitNo').on('click', function () {
+                document.getElementById("lblRazonSocialS").className = "alert alert-danger";
+                document.getElementById('<%= lblRazonSocial.ClientID %>').innerHTML = "Debe ingresar un NIT para continuar.¿Desea Ingresarlo? ";
+                
+             });
+
+            //FUNCION PARA GUARDAR UN NUEVO NIT
+             function insertarNit() {
+                 var razonSocial = $("#txtRazonSocial2").val();
+                 var alias = $("#txtAlias2").val();
+                 var nit = $("#txtNit").val();
+                 if (razonSocial == "" || alias == "") {
+
+                     alertify.error("No deje ningún espacio en blanco para guardar el NIT");
+                 } else {
+                     $("#modalNuevoNit").modal('hide');
+                $.ajax({
+                    type: "POST",
+                    url: "NuevaRendicion.aspx/insertarNuevoNit",
+                    data: '{nit: "' + nit + '", razonSocial: "' + razonSocial + '", aliasNit: "' + alias + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: escribirRazonSocial,
+                    failure: function (response) {
+                        alert(response.d);
+                    }
+                });
+                $('#<%= txtRazonSocial2.ClientID %>').val("");
+                $('#<%= txtAlias2.ClientID %>').val("");
+                alertify.success("Nit guardado exitosamente");
+                
+                }
+             }
+            ///////////////////////////////////////////////////////////////////////////
+            //*****************FUNCIONES PARA VALIDAR EL GUARDADO DE UN COMPROBANTE (FACTURA)**************
+            //FUNCION PARA VALIDAR QUE ESTEN EXCRITOS CORRECTAMENTE TODOS LOS CAMPOS PARA INGRESAR UN NUEVO COMPROBANTE
+
+          
+          
+            $('#btnAceptarComp').on('click', function () {
+                validarComprobantes();
+            });
+
+            $("#txtImporte").on('change keyup paste keydown', function () {
+                copiarImporte($(this).val());              
+            });
+            $("#txtImporte").numeric('.'); // números con separador decimal
+            $("#txtImporteCredFisc").numeric('.'); // números con separador decimal
+            //FUNCION PARA GUARDAR UN NUEVO COMPROBANTE
+                       
+            
+            function validarComprobantes() {
+                var t = $('#dtgComprobante').DataTable();
+                
+                var nit = $("#txtNit").val();
+                var razonSocial = $("#txtNitAdicional").val();
+                 var factura = $("#txtFactura").val();
+                 var codControl = $("#txtCodControl").val();
+                 var nroAutoriza = $("#txtAutoriza").val();
+                 var fecha = $("#txtFecha").val();
+                 var importe = $("#txtImporte").val();
+                 var importeCredFisc = $("#txtImporteCredFisc").val();
+                
+                 if (nit == "" || factura == "" || codControl == "" || nroAutoriza == "" || fecha == "" || importe == "" || importeCredFisc == "") {
+                     console.log(nit);
+                     console.log(factura);
+                     console.log(codControl);
+                     console.log(nroAutoriza);
+                     console.log(fecha);
+                     console.log(importe);
+                     console.log(importeCredFisc);
+
+                     alertify.error("No se guardó el COMPROBANTE. No deje ningún espacio en blanco e intente nuevamente.");
+                     
+                 } else {
+                     
+                     $('.modal.in').modal('hide');
+                     $('.modal-backdrop').remove();
+                     t.row.add([
+                     nit,
+                    razonSocial,
+                     factura,
+                     codControl,
+                    nroAutoriza,
+                     fecha,
+                      importe,
+                     importeCredFisc
+            
+                     ]).draw(false);
+                     $("#txtNit").val("");
+                     document.getElementById('<%= lblRazonSocial.ClientID %>').innerHTML = "";
+                     $("#txtFactura").val("");
+                     $("#txtCodControl").val("");
+                     $("#txtAutoriza").val("");
+                   
+                     $("#txtImporte").val("");
+                     $("#txtImporteCredFisc").val("");
+                     alertify.success("COMPROBANTE guardado exitosamente.");
+                 }
+                
+            }
+
+             function mascara(d)
+                {
+                    val = d.val
+
+                    cuenta = 0;
+                    posicion = val.indexOf(".");
+                    while (posicion != -1) {
+                        cuenta++;
+                        posicion = val.indexOf(".", posicion + 1);
+                    }
+
+                    if (cuenta > 1) {
+                        d.value = d.value.substring(0, d.value.length - cuenta+1);                       
+                    }                
+      
+                }
+
+            function copiarImporte(importe) {
+                
+                $("#txtImporteCredFisc").val(importe);
+            }
+
+           
+        }
+
+
+
+    </script>
+
     <script src="Scripts/jquery-migrate-1.2.1.min.js"></script>   
     
 </body>
