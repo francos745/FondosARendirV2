@@ -2,27 +2,94 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head id="Head1" runat="server">
-        <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-		<meta charset="utf-8"/>
-		<title>Página Principal</title>
-         <script language="javascript" type="text/javascript">
-             javascript: window.history.forward(1);
-        </script>
-        <link rel="shortcut icon" href="images/icons/clever.png" />
-		<meta name="generator" content="Bootply" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
-		<link href="Content/bootstrap.min.css" rel="stylesheet"/>
-        <link href="Content/Estilos.css" rel="stylesheet"/>
-		<!--[if lt IE 9]>
-			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-		<![endif]-->
-		<link href="Content/styles.css" rel="stylesheet"/>
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Bootstrap Login Form Template</title>
+
+        <!-- CSS -->
+    
+
+         <link href="css/bootstrap.min.css" rel="stylesheet"/>
+         <link href="Content/font-awesome.min.css" rel="stylesheet"/>	
+         <link href="css/style2.css" rel="stylesheet"/>
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+    
+    </head>
+        <body>
+
+        <!-- Top content -->
+        <div class="top-content">
+        	
+            <div class="inner-bg">
+                <div class="container">
+                    
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-3">
+                        	<div class="form-top">
+							 <div class="form-top-right">
+                        			
+                                 <img src="images/icons/clever.png" class="" alt="Cinque Terre" width="70%" height="70%"/>
+                        		</div>
+                        		<div class="form-top-left">
+								<h1 style="text-align:center;"><strong>Fondos a Rendir</strong></h1>   
+                        			
+                            		<h5>Ingrese su nombre de Usuario y Contraseña para acceder:</h5>
+                        		</div>
+                        		
+                            </div>
+                            <div class="form-bottom">
+			                    
+                                <form class="login-form" id="form1" runat="server" >
+			                    	<div class="form-group">
+			                    		<label class="sr-only" for="form-username">Nombre de Usuario></label>
+			                        	<asp:TextBox ID="txtUsuario" runat="server" class="form-control input-lg text-center" placeholder="Usuario"></asp:TextBox>
+			                        </div>
+			                        <div class="form-group">
+			                        	<label class="sr-only" for="form-password">Contraseña</label>
+                                        <asp:TextBox ID="txtPass" runat="server" TextMode="Password" class="form-control input-lg text-center" placeholder="Contraseña" ></asp:TextBox>
+			                        	
+			                        </div>
+			                       <asp:Button ID="btnIngresar" runat="server" Text="Ingresar" class="btn btn-primary btn-lg btn-block" />
+                                    <div runat="server" id="alert" class="">
+                                        <strong><asp:Label ID="lblMensaje" runat="server" Text=""></asp:Label></strong>
+                                    </div>
+			                    </form>
+		                    </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+        </div>
+
+
+        <!-- Javascript -->
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/jquery.backstretch.min.js"></script>
+        <script src="js/scripts.js"></script>
         
-        <!-- script references -->
-		<script type="text/jscript" src="Scripts/jquery.min.js"></script>
-		<script type="text/javascript" src="Scripts/bootstrap.min.js"></script>
-</head>
+        <!--[if lt IE 10]>
+            <script src="assets/js/placeholder.js"></script>
+        <![endif]-->
+
+    </body>
+
+
+
+
+<%--
 <body>
 
 
@@ -59,9 +126,7 @@
   
                         </div>
 
-                        <div runat="server" id="alert" class="">
-                            <strong><asp:Label ID="lblMensaje" runat="server" Text=""></asp:Label></strong>
-                        </div>
+                        
 				  </form>
 				</div>
 				<div class="modal-footer">
@@ -81,5 +146,5 @@
 		</div>
 
 		
-</body>
+</body>--%>
 </html>

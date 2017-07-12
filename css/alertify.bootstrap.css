@@ -99,16 +99,16 @@
 				.alertify-button-ok:focus,
 				.alertify-button-ok:active {
 					text-shadow: 0 -1px 0 rgba(0,0,0,.25);
-					background-color: #ff9a17;
-					border: 1px solid #ff9a17;
-					border-color: #ff9a17 #ff9a17 #002A80;
+					background-color: #1a8ae1;
+					border: 1px solid #1a8ae1;
+					border-color: #1a8ae1 #1a8ae1 #002A80;
 					border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 					color: #FFF;
 				}
 				.alertify-button-ok:hover,
 				.alertify-button-ok:focus,
 				.alertify-button-ok:active {
-					background: #ff9a17;
+					background: #1a8ae1;
 				}
 
 .alertify-log {

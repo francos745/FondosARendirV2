@@ -18,7 +18,7 @@ Partial Class _Default
         Dim id As String
         Dim pass, fechaExp As String
         cmd.Connection = conexion
-        cmd.CommandText = " SELECT ID,USUARIO,DEFPASS FROM FAR.ACCESOS WHERE USUARIO= @usuario AND ESTADO='H'"
+        cmd.CommandText = " SELECT ID,USUARIO,DEFPASS, {FN CONCAT({FN CONCAT (NOMBRE,{FN CONCAT (' ',{FN CONCAT (APELLIDO,' ')})})},APELLIDO_MAT)} NOMBRE FROM FAR.ACCESOS WHERE USUARIO= @usuario AND ESTADO='H'"
         cmd.Parameters.Add(New SqlParameter("usuario", txtUsuario.Text))
 
         dr = cmd.ExecuteReader
@@ -27,6 +27,7 @@ Partial Class _Default
             id = CStr(dr(0))
             Session.Add("usuario", CStr(dr(1)))
             Session.Add("defPass", CStr(dr(2)))
+            Session.Add("nombreUsuario", CStr(dr(3)))
             Session.Add("id", id)
             query = "SELECT TOP 1 PASS FROM FAR.PASSWORD WHERE ID_USUARIO='" & id & "' ORDER BY ID DESC"
 

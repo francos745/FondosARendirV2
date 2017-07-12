@@ -75,7 +75,7 @@
 
 .testgrid1 tr:hover td, tr:hover td a, tr.odd:hover td, tr.odd:hover td a 
     {
-	background: rgba(0, 71, 71, 0.5);
+	background: rgba(52, 152, 219, 0.5);
 	color: #000;
 	
 	}
@@ -104,13 +104,13 @@
 
 .testgrid2 th 
     {
-        border:0px;
+        border:10px;
 	background: #2E85C0;
 	background-position: 5px;
 	padding: 5px 5px;
 	text-align:center;
 	font-family: "Arial Narrow", Arial;
-    border-bottom: 1px solid #800000;
+    border-bottom: 2px solid #000;
 	color:#fff;
     font-size: 13px;
     line-height: 14.4px;
@@ -123,17 +123,22 @@
 	font-family: Arial, Helvetica, sans-serif;
 	color: #000000;
 	
-	text-align: center; 
-
-    font-family: "Arial", Arial;
-	font-size: 13px;
+	border:0.5px solid #e5e4e4;
+    padding: 5px 5px;
+    font-family: "Arial, Helvetica, sans-serif", Arial;
+	font-size: 13.5px;
 	font-style: normal;
 	font-variant: normal;
 	
 	line-height: 13.6px;
 	}
    
-	
+tr:nth-child(odd) {
+    background-color:#f2f2f2;
+}
+tr:nth-child(even) {
+    background-color:#fbfbfb;
+}
 	
 
 
@@ -144,7 +149,7 @@
 
 .testgrid2 tr:hover td, tr:hover td a, tr.odd:hover td, tr.odd:hover td a 
     {
-	background: rgba(0, 71, 71, 0.5);
+	background: rgba(52, 152, 219, 0.5);
 	color: #000;
 	
 	}
@@ -214,7 +219,7 @@
 
 .testgrid3 tr:hover td, tr:hover td a, tr.odd:hover td, tr.odd:hover td a 
     {
-	background: rgba(0, 71, 71, 0.5);
+	background: rgba(52, 152, 219, 0.5);
 	color: #000;
 	
 	}
