@@ -1,10 +1,11 @@
-﻿<%@ Page Language="VB" AutoEventWireup="true" CodeFile="NuevaRendicion.aspx.vb" Inherits="NuevaRendicion" EnableEventValidation="false"%>
+﻿<%@ Page Language="VB" AutoEventWireup="false" CodeFile="NuevaRendicionSF.aspx.vb" Inherits="NuevaRendicionSF" %>
+
 
 <!DOCTYPE html>
 
 <html lang="en">
 <head runat="server">
-    <title>Nueva Rendición con Fondos</title>
+    <title>Nueva Rendición sin Fondos</title>
        <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
     <meta charset="utf-8"/>
     <link rel="shortcut icon" href="img/clever.png" />
@@ -23,7 +24,6 @@
     <link type="text/css" rel="stylesheet" href="Content/animate.css">    
     <link type="text/css" rel="stylesheet" href="Content/main.css">
     <link type="text/css" rel="stylesheet" href="Content/style-responsive.css">
-    
     <link href="css/dataTables.bootstrap.min.css" rel="stylesheet" />
     <link href="css/responsive.bootstrap.min.css" rel="stylesheet" />
 
@@ -132,7 +132,6 @@
                             <img alt="" src="../img/ajax_loader.gif" />
                         </div>
                     </div>
-
                 <!--BEGIN BACK TO TOP-->
                 <a id="totop" href="#"><i class="fa fa-angle-up"></i></a>
                 <!--END BACK TO TOP-->
@@ -168,11 +167,11 @@
                             <ul id="side-menu" class="nav">
                     
                                  <div class="clearfix"></div>
-                                 <li class="active"><a href="NuevaRendicion.aspx"><i class="fa fa-money">
+                                 <li><a href="NuevaRendicion.aspx"><i class="fa fa-money">
                                     <div class="icon-bg bg-orange"></div>
                                 </i><span class="menu-title">Nueva Rendición con Fondos</span></a></li>
 					
-                                 <li><a href="NuevaRendicionSF.aspx"><i class="fa fa-file">
+                                 <li class="active"><a href="NuevaRendicionSF.aspx"><i class="fa fa-file">
                                     <div class="icon-bg bg-pink"></div>
                                 </i><span class="menu-title">Nueva Rendición sin Fondos</span></a>
                        
@@ -205,12 +204,12 @@
                         <div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
                             <div class="page-header pull-left">
                                 <div class="page-title">
-                                    Nueva Rendición con Fondos</div>
+                                    Nueva Rendición sin Fondos</div>
                             </div>
                             <ol class="breadcrumb page-breadcrumb pull-right">
                                 <li><i class="fa fa-home"></i>&nbsp;<a href="dashboard.html">Inicio</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
-                                <li class="hidden"><a href="#">Nueva Rendición con Fondos</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
-                                <li class="active">Nueva Rendición con Fondos</li>
+                                <li class="hidden"><a href="#">Nueva Rendición sin Fondos</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+                                <li class="active">Nueva Rendición sin Fondos</li>
                             </ol>
                             <div class="clearfix">
                             </div>
@@ -260,12 +259,7 @@
 
 
 
-                              
-
-
-
-
-                                <div class="row">
+                                                               <div class="row">
                                      <div class="col-sm-2" >
                                         <div id="lblCodigoRendS" runat="server" class="alert alert-info">
                                           <span ><i class="fa fa-file-o"></i> Código Rendición</span>
@@ -298,12 +292,6 @@
                                     </div>
             
                                 </div>
-
-
-
-
-
-
 
 
                                 <div class="row">
@@ -351,8 +339,8 @@
                                                         <th>ID</th>
                                                         <th>FECHA</th>
                                                         <th>COMPROBANTE</th>
-                                                        <th>NO. AUTORIZACIÓN</th>
-                                                        <th>CÓD.CONTROL</th>
+                                                        <th>NÚMERO DE AUTORIZACIÓN</th>
+                                                        <th>CÓDIGO DE CONTROL</th>
                                                         <th>PROVEEDOR</th>
                                                         <th>DETALLE</th>
                                                         <th>IMPORTE</th>
@@ -473,13 +461,13 @@
                                 <div class="col-sm-3" id="txtImporteS" runat="server">    
                                     <label for="nueva" class="control-label">Importe:</label>
                                     <div class="controls">
-                                         <asp:TextBox ID="txtImporte" maxlength="25"  runat="server" class="form-control input-sm comprobante" placeholder=""></asp:TextBox>                                    
+                                         <asp:TextBox ID="txtImporte" maxlength="25"  runat="server" class="form-control input-sm" placeholder=""></asp:TextBox>                                    
                                     </div>                            
                                 </div> 
                                 <div class="col-sm-3" id="txtImporteCredFiscS" runat="server">
                                     <label for="nueva" class="control-label">Importe para crédito Fiscal:</label>
                                     <div class="controls">
-                                         <asp:TextBox ID="txtImporteCredFisc" maxlength="25"  runat="server" class="form-control input-sm comprobante" placeholder=""></asp:TextBox>                                    
+                                         <asp:TextBox ID="txtImporteCredFisc" maxlength="25"  runat="server" class="form-control input-sm" placeholder=""></asp:TextBox>                                    
                                     </div>
                                 </div> 
                             
@@ -709,7 +697,8 @@
             var validator = true;
             $(".mySelect").select2();
             //$('#modalComprobante').modal({ backdrop: 'static', keyboard: false, show: false });
-            
+            $('#dtgComprobante').css('cursor', 'pointer');
+
             $('input[name="txtFecha"]').daterangepicker(
               {
                   locale: {
@@ -734,33 +723,15 @@
                 }
 
             });
-
-            $(".comprobante").change(function () {
-                if ($(this).val() == "") {
-                     $('#<%= btnAceptarComp.ClientID %>').prop('disabled', true);
-                } else {
-                     $('#<%= btnAceptarComp.ClientID %>').prop('disabled', false);
-                }
-
-
-                   
-            });
-            $(".comprobante").keypress(function () {
-               if ($(this).val() == "") {
-                     $('#<%= btnAceptarComp.ClientID %>').prop('disabled', true);
-                } else {
-                     $('#<%= btnAceptarComp.ClientID %>').prop('disabled', false);
-                }
-            });
            
             $(document).ready(function () {
+
                 $(document).ajaxStart(function () {
                     document.getElementById("carga").style = "";
                 });
                 $(document).ajaxStop(function () {
                     document.getElementById("carga").style = "display:none;";
                 });
-
                 var tRep = $('#dtgReporte').DataTable({ "lengthMenu": [[-1], ["Todos"]] });
 
                table=$('#dtgComprobante').DataTable({
@@ -774,8 +745,8 @@
                     "searching": true,
                     "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
                             if (aData[9] != aData[7]) {
-                                $('td', nRow).css('background-color', '#f2dede');
-                                $('td', nRow).css('color', '#a94442');
+                            $('td', nRow).css('background-color', '#d9534f');
+                            $('td', nRow).css('color', '#fff');
                             $('td', nRow).css('font-weight', 'bold');
                             validator *= false;
                         }
@@ -1006,16 +977,16 @@
 
             //funcion para quitar un registro de la tabla de comprobantes
              function quitarRegistro(response) {
-                var codigoRend = document.getElementById('lblCodigoRend').innerHTML;
+                 var codigoRend = document.getElementById('lblCodigoRend').innerHTML;
                 if (currentTr != null) {
-                    
-                    $(currentTr).closest('tr').empty();
+                    llenarTablaComprobantes();
+                   // $(currentTr).closest('tr').empty();
                     alertify.success("Comprobante eliminado exitosamente");
                 }
                 else {
                     alertify.success("Sucedió un problema al eliminar el registro.");
                 }
-                mostrarRendido($('#cmbRendicion').val(),codigoRend);
+                mostrarRendido($('#cmbRendicion').val(), codigoRend);
                     
                 }
             
@@ -1036,7 +1007,7 @@
                 var id = document.getElementById('<%= lblId.ClientID %>').innerHTML;
                 $.ajax({
                     type: "POST",
-                    url: "NuevaRendicion.aspx/llenarComboARendir",
+                    url: "NuevaRendicionSF.aspx/llenarComboARendir",
                     data: "{id:'" + id + "'}",
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
@@ -1057,7 +1028,7 @@
             }
 
             //FUNCION QUE MUESTRA EL CODIGO DE RENDICION, Y CARGA LAS DEMÁS TAREAS ASOCIADAS AL COMBO BOX DE RENDICION
-            function mostrarCodigoRendicion(id) {
+           function mostrarCodigoRendicion(id) {
                 
                 $.ajax({
                     
@@ -1426,7 +1397,6 @@
                 
                 
                 var nit = $("#txtNit").val();
-                console.log(nit + " nit");
                 var razonSocial = $("#txtNitAdicional").val();
                  var factura = $("#txtFactura").val();
                  var codControl = $("#txtCodControl").val();
@@ -1436,16 +1406,9 @@
                  importe = parseFloat($("#txtImporte").val());
                  var importeCredFisc = 0;
                  importeCredFisc=parseFloat($("#txtImporteCredFisc").val());
-                 console.log(nit + " nit");
-                 console.log(factura + " factura");
-                 console.log(codControl + " codControl");
-                 console.log(nroAutoriza + " nroAutoriza");
-                 console.log(fecha + " fecha");
-                 console.log(importe + " importe");
-                 console.log(importeCredFisc + " importeCredFisc");
-                 if (nit == "" || factura == "" || codControl == "" || nroAutoriza == "" || fecha == "") {
+                
+                 if (nit == "" || factura == "" || codControl == "" || nroAutoriza == "" || fecha == "" || importe == "" || importeCredFisc == "") {
                     
-
                      alertify.error("No se guardó el COMPROBANTE. No deje ningún espacio en blanco e intente nuevamente.");
                      
                  } else {
@@ -1757,6 +1720,7 @@
                 var idLinea = $('#<%= lblIdLinea.ClientID %>').val();
                 var conceptoDesc = $("#cmbConcepto option:selected").text();
                 var faseDesc = $("#cmbFase option:selected").text();
+                var codigoRend = document.getElementById('<%= lblCodigoRend.ClientID %>').innerHTML;
                 if (idLinea == "") {
 
                    
@@ -1854,8 +1818,8 @@
                     }
                 });
                 }
-                var codigoRend = document.getElementById('lblCodigoRend').innerHTML;
-                mostrarRendido($('#cmbRendicion').val(),codigoRend);
+                
+                mostrarRendido($('#cmbRendicion').val(), codigoRend);
             }
 
 
@@ -1946,7 +1910,7 @@
             $('#dtgLineas tbody').on('click', 'span.delete', function () {
                 currentTr1 = this;
                 var data = table1.row($(this).parents('tr')).data();
-               
+               var codigoRend = document.getElementById('<%= lblCodigoRend.ClientID %>').innerHTML;
                 var id=data[0];
                
                
@@ -1971,7 +1935,7 @@
                         alertify.error("Operación cancelada");
                     }
                 });
-                mostrarRendido($('#cmbRendicion').val(),codigoRend);
+                mostrarRendido($('#cmbRendicion').val(), codigoRend);
                 
             });
 
@@ -2017,114 +1981,66 @@
                         alertify.error("Operación cancelada");
                     }
                 });
-                              
+               
+                
                 }
 
             function generarPDF() {
                 var responsable = document.getElementById('<%= lblNombreUsuario.ClientID %>').innerHTML;
-               
+                console.log(responsable + " responsable");
                 var fecha= moment().format("DD/MM/YYYY");
 
                 var concepto= document.getElementById('<%= lblSubtitulo.ClientID %>').innerHTML;
                 var codRend = document.getElementById('<%= lblCodigoRend.ClientID %>').innerHTML;
-                var montoAsignado = parseFloat(document.getElementById('<%= lblAsignado.ClientID %>').innerHTML);
-                var rendidoAnterior = parseFloat(document.getElementById('<%= lblRendidoAnterior.ClientID %>').innerHTML);
-                var rendido = parseFloat(document.getElementById('<%= lblRendido.ClientID %>').innerHTML);
-                var saldoPorRendir = montoAsignado - rendidoAnterior;
-                var saldo = parseFloat(document.getElementById('<%= lblPorRendir.ClientID %>').innerHTML);
-                var caja = 0;
-                var reponer = 0;
-
-                if (saldo>=0){
-                    caja = saldo;
-                    reponer = 0;
-                } else {
-                    caja = 0;
-                    reponer = saldo * (-1);
-                }
-               montoAsignado = montoAsignado.toString();
-               rendidoAnterior = rendidoAnterior.toString();
-               rendido = rendido.toString();
-               saldoPorRendir = saldoPorRendir.toString();
-               saldo = saldo.toString();
-               caja = caja.toString();
-               reponer = reponer.toString();
-
-                var doc = new jsPDF('p');
+                var importe = document.getElementById('<%= lblAsignado.ClientID %>').innerHTML;
+                var saldo = document.getElementById('<%= lblPorRendir.ClientID %>').innerHTML;
+                var doc = new jsPDF('l');
     
-                    doc.setFontSize(8);
+                    doc.setFontSize(10);
                     doc.setTextColor(0);
                     doc.setFontStyle('bold');
-                    doc.text("RESPONSABLE: ", 15, 25);
-                   
+                    doc.text("Responsable: ", 15, 25);
+                    doc.setFontSize(10);
+                    doc.setTextColor(0);
                     doc.setFontStyle('normal');
                     doc.text(responsable, 15 + 38, 25);
 	
-                    
+                    doc.setFontSize(10);
+                    doc.setTextColor(0);
                     doc.setFontStyle('bold');
-                    doc.text("FECHA: ", 15 , 29);
-                   
+                    doc.text("Fecha: ", 15 , 29);
+                    doc.setFontSize(10);
+                    doc.setTextColor(0);
                     doc.setFontStyle('normal');
                     doc.text(fecha, 15 + 38, 29);
 		
-                    
+                    doc.setFontSize(10);
+                    doc.setTextColor(0);
                     doc.setFontStyle('bold');
-                    doc.text("CONCEPTO: ", 15 , 33);
-                   
+                    doc.text("Concepto: ", 15 , 33);
+                    doc.setFontSize(10);
+                    doc.setTextColor(0);
                     doc.setFontStyle('normal');
                     doc.text(concepto, 15 + 38, 33);
 						
-                    
+                    doc.setFontSize(10);
+                    doc.setTextColor(0);
                     doc.setFontStyle('bold');
-                    doc.text("MONTO ASIGNADO:", 15, 37);
-                    
+                    doc.text("Importe Recibido: ", 15 , 37);
+                    doc.setFontSize(10);
+                    doc.setTextColor(0);
                     doc.setFontStyle('normal');
-                    doc.text(montoAsignado, 15 + 38, 37);
+                    doc.text(importe, 15 + 38, 37);
 
-                   
+                    doc.setFontSize(10);
+                    doc.setTextColor(0);
                     doc.setFontStyle('bold');
-                    doc.text("SALDO POR RENDIR: ", 15, 41);
-                   
+                    doc.text("Saldo por Rendir: ", 15 , 41);
+                    doc.setFontSize(10);
+                    doc.setTextColor(0);
                     doc.setFontStyle('normal');
-                    doc.text(saldoPorRendir, 15 + 38, 41);
-
-                   
-                    doc.setFontStyle('bold');
-                    doc.text("IMP. RENDIDO: ", 15, 45);
-                    
-                    doc.setFontStyle('normal');
-                    doc.text(rendido, 15 + 38, 45);
-
-                   
-                    doc.setFontStyle('bold');
-                    doc.text("IMP. A DEVOLVER A CAJA: ", 15, 49);
-                    
-                    doc.setFontStyle('normal');
-                    doc.text(caja, 15 + 38, 49);
-
-                   
-                    doc.setFontStyle('bold');
-                    doc.text("IMP. A REPONER: ", 15, 53);
-                   
-                    doc.setFontStyle('normal');
-                    doc.text(reponer, 15 + 38, 53);
+                    doc.text(saldo, 15 + 38, 41);
 	
-                //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-          
-
-
-
-
-
-
-
-
-
-
-
-
-                //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		
                     var totalPagesExp = "{total_pages_count_string}";
                     //Definimos el contenido adicional en la variable pageContent
@@ -2153,33 +2069,27 @@
                     var elem = document.getElementById("dtgReporte");
                     var res = doc.autoTableHtmlToJson(elem);
                     //doc.autoTable es la variable encargada de escribir los datos.
-                    doc.autoTable(res.columns, res.data, {startY: 57,
-                        styles: { fontSize: 6 },
-                        margin: { top: 20 },
-                        columnStyles: { text: { fontSize: 6, columnWidth: 20 } },
-
-                        columnStyles: { '6': { fontSize: 6, overflow: 'linebreak', columnWidth: 50 } },
-
-
+                    doc.autoTable(res.columns, res.data, {startY: 45,
+                        styles: {fontSize: 8, columnWidth: 'auto', overflow: 'linebreak'},
+                        margin: {top: 20},
+                        columnStyles: {text: {columnWidth: 'auto'}},
                         //theme: 'grid',
                         addPageContent: pageContent
                     });
-
-                   
 
                     // Total page number plugin only available in jspdf v1.0+
                     if (typeof doc.putTotalPages === 'function') {
                         doc.putTotalPages(totalPagesExp);
                     }
 	
-                    doc.text("-------------------------------------------------", 54, doc.autoTable.previous.finalY + 10);
-                    doc.text("Fabiola Gomez VillaFuente", 62, doc.autoTable.previous.finalY + 15);
-                    doc.text("Administración y Finanzas", 62, doc.autoTable.previous.finalY + 20);
+                    doc.text("---------------------------------------", 74, doc.autoTable.previous.finalY + 10);
+                    doc.text("Fabiola Gomez", 84, doc.autoTable.previous.finalY + 15);
+                    doc.text("Administración y Finanzas", 74, doc.autoTable.previous.finalY + 20);
 
 	
-                    doc.text("--------------------------------------------------", 130, doc.autoTable.previous.finalY + 10);
-                    doc.text(responsable, 134, doc.autoTable.previous.finalY + 15);
-                    doc.text("Custodio", 150, doc.autoTable.previous.finalY + 20);
+                    doc.text("----------------------------------------", 194, doc.autoTable.previous.finalY + 10);
+                    doc.text("Zandy Rojas", 204, doc.autoTable.previous.finalY + 15);
+                    doc.text("Custodio", 207, doc.autoTable.previous.finalY + 20);
 
 	
 	
@@ -2204,3 +2114,4 @@
     
 </body>
 </html>
+

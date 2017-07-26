@@ -9,9 +9,26 @@ Partial Class NuevaRendicion
     Dim fn As New Funciones
 
     Sub verificarInicioSesion()
+
+        Dim deshabilitado As Boolean = False
+
+        'VALIDAMOS QUE EXISTA UN PROYECTO REGISTRADO
         If Session("usuario") = "" Then
             Response.Redirect("Default.aspx")
         End If
+
+        'VALIDAMOS QUE LA CONTRASEÑA POR DEFECTO NO SE REPITA
+
+        If Session("pass") = Session("defPass") Then
+            Response.Redirect("cambiarPass.aspx")
+        End If
+
+
+
+        If DateTime.Now.ToShortDateString = Session("fechaExp") Then
+            Response.Redirect("cambiarPass.aspx")
+        End If
+
     End Sub
 
 
@@ -186,7 +203,7 @@ Partial Class NuevaRendicion
     End Function
 
     <WebMethod()>
-    Public Shared Function obtenerRendido(id As String) As String
+    Public Shared Function obtenerRendido(id As String, codigoRend As String) As String
         Dim query As String
         Dim fn As New Funciones
         Dim rendido As String
@@ -194,7 +211,28 @@ Partial Class NuevaRendicion
         query += " FROM FAR.DOCS_FAR_LINEA A "
         query += " WHERE A.ID_DOCS_FAR In (Select B.ID FROM FAR.DOCS_FAR B "
         query += " WHERE B.ID_RENDICION In (Select C.ID FROM FAR.RENDICION C "
-        query += " WHERE C.ID_A_RENDIR In (Select D.ID FROM FAR.A_RENDIR D WHERE D.ID='" & id & "')))"
+        query += " WHERE C.ID_A_RENDIR In (Select D.ID FROM FAR.A_RENDIR D WHERE D.ID='" & id & "') AND C.CODIGO_RENDICION='" & codigoRend & "'))"
+        query += " AND A.COD_CONTROL<>'B'"
+        Try
+            rendido = fn.DevolverDatoQuery(query)
+        Catch ex As Exception
+            Return "No se pudo acceder a la base de datos"
+        End Try
+
+
+        Return rendido
+    End Function
+
+    <WebMethod()>
+    Public Shared Function obtenerRendidoAnterior(id As String, codigoRend As String) As String
+        Dim query As String
+        Dim fn As New Funciones
+        Dim rendido As String
+        query = " SELECT ISNULL(convert(numeric(9,2),round(SUM(A.IMPORTE),2,1)) ,0) RENDIDO "
+        query += " FROM FAR.DOCS_FAR_LINEA A "
+        query += " WHERE A.ID_DOCS_FAR In (Select B.ID FROM FAR.DOCS_FAR B "
+        query += " WHERE B.ID_RENDICION In (Select C.ID FROM FAR.RENDICION C "
+        query += " WHERE C.ID_A_RENDIR In (Select D.ID FROM FAR.A_RENDIR D WHERE D.ID='" & id & "') AND C.CODIGO_RENDICION<>'" & codigoRend & "'))"
         query += " AND A.COD_CONTROL<>'B'"
         Try
             rendido = fn.DevolverDatoQuery(query)
@@ -554,7 +592,7 @@ Partial Class NuevaRendicion
 
 
 
-        query = " UPDATE FAR.RENDICION SET ESTADO='G', FECHA_IMPRESION=GETDATE(), SALDO='" & saldo & "' WHERE CODIGO_RENDICION='" & codRend & "'"
+        query = " UPDATE FAR.RENDICION SET ESTADO='G', FECHA_IMPRESION=GETDATE(), SALDO='" & saldo & "'  WHERE CODIGO_RENDICION='" & codRend & "'"
 
         Try
             fn.ejecutarComandoSQL2(query)
